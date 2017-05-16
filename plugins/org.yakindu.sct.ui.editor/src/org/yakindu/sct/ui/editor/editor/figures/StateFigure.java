@@ -104,7 +104,7 @@ public class StateFigure extends RoundedRectangle {
 
 	@Override
 	public void paintFigure(Graphics graphics) {
-		drawBlurredShadow(graphics);
+//		drawBlurredShadow(graphics);
 		super.paintFigure(graphics);
 	}
 
@@ -114,10 +114,10 @@ public class StateFigure extends RoundedRectangle {
 	 */
 	@Override
 	protected void fillShape(Graphics graphics) {
-		Color c = mixColor(getBackgroundColor(), ColorConstants.white, 224);
-		fillVerticalGradientRoundedRectangle(graphics, getBounds(),
-				getCornerDimensions(), getBackgroundColor(), c);
-		c.dispose();
+//		Color c = mixColor(getBackgroundColor(), ColorConstants.white, 224);
+//		fillVerticalGradientRoundedRectangle(graphics, getBounds(),
+//				getCornerDimensions(), getBackgroundColor(), c);
+//		c.dispose();
 	}
 
 	private void drawBlurredShadow(Graphics graphics) {

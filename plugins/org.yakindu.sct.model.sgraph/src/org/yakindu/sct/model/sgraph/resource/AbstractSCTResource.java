@@ -64,6 +64,7 @@ import org.yakindu.sct.model.sgraph.Transition;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -176,8 +177,13 @@ public abstract class AbstractSCTResource extends XMIResourceImpl {
 		super.detachedHelper(eObject);
 	}
 
+	Map<String,EObject> naiveCache = Maps.newHashMap();
 	@Override
 	public synchronized EObject getEObject(String uriFragment) {
+		EObject eObject = naiveCache.get(uriFragment);
+		if(eObject!=null)
+			return eObject;
+		
 		if (encoder.isCrossLinkFragment(this, uriFragment)) {
 			Triple<EObject, EReference, INode> triple = encoder.decode(this, uriFragment);
 			List<EObject> linkedObjects = null;

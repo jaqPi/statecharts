@@ -122,20 +122,20 @@ public abstract class AbstractMarkerBasedDecorationProvider extends AbstractDeco
 				return;
 			}
 
-			IResource resource = WorkspaceSynchronizer.getFile(view.eResource());
-			if (resource == null || !resource.exists()) {
-				return;
-			}
-			List<IMarker> markers = new ArrayList<IMarker>();
-			try {
-				markers.addAll(Arrays.asList(resource.findMarkers(getMarkerType(), true, IResource.DEPTH_INFINITE)));
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
-			if (markers == null || markers.size() == 0) {
-				return;
-			}
-			createDecorators(view, markers);
+//			IResource resource = WorkspaceSynchronizer.getFile(view.eResource());
+//			if (resource == null || !resource.exists()) {
+//				return;
+//			}
+//			List<IMarker> markers = new ArrayList<IMarker>();
+//			try {
+//				markers.addAll(Arrays.asList(resource.findMarkers(getMarkerType(), true, IResource.DEPTH_INFINITE)));
+//			} catch (CoreException e) {
+//				e.printStackTrace();
+//			}
+//			if (markers == null || markers.size() == 0) {
+//				return;
+//			}
+//			createDecorators(view, markers);
 		}
 
 		public void activate() {

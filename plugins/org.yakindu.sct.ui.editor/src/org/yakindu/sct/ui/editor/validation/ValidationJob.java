@@ -24,7 +24,7 @@ import com.google.inject.Inject;
  * @author andreas muelder - Initial contribution and API
  * 
  */
-@ImplementedBy(ShadowModelValidationJob.class)
+@ImplementedBy(DefaultValidationJob.class)
 public abstract class ValidationJob extends Job {
 
 	@Inject
