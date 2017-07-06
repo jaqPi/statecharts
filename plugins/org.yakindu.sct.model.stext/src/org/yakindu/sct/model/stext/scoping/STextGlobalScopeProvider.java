@@ -25,11 +25,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.resource.IEObjectDescription;
+import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.DefaultGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.FilteringScope;
 import org.eclipse.xtext.scoping.impl.ImportUriGlobalScopeProvider;
+import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 import org.eclipse.xtext.scoping.impl.SimpleScope;
 import org.eclipse.xtext.util.IAcceptor;
 import org.eclipse.xtext.util.IResourceScopeCache;
@@ -127,15 +129,9 @@ public class STextGlobalScopeProvider extends ImportUriGlobalScopeProvider {
 	protected IScope createLazyResourceScope(final IScope parent, final URI uri,
 			final IResourceDescriptions descriptions, final EClass type, final Predicate<IEObjectDescription> filter,
 			final boolean ignoreCase) {
-		
-		return cache.get(uri.toString(), CACHE_RESOURCE_DESC, new Provider<IScope>() {
-
-			@Override
-			public IScope get() {
-				return STextGlobalScopeProvider.super.createLazyResourceScope(parent, uri, descriptions, type, filter, ignoreCase);
-			}
-			
-		});
+		//TODO cache to avoid this is done more often than needed... attention to the filter instance
+		IResourceDescription description = descriptions.getResourceDescription(uri);
+		return SelectableBasedScope.createScope(parent, description, filter, type, ignoreCase);
 	}
 
 	private Collection<ImportScope> getImportScopes(final Resource resource) {
