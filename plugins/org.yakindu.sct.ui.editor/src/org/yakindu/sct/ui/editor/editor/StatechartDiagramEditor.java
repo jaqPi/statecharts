@@ -594,13 +594,13 @@ public class StatechartDiagramEditor extends DiagramPartitioningEditor implement
 	 * i.e. undo/redo operations , the UI won't be affected/updated by those
 	 * operations, if using the embedded editor model access API.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected void enableXtext(StyledText textWidget) {
 		IEMFValueProperty modelProperty = EMFEditProperties.value(getEditingDomain(),
 				SGraphPackage.Literals.SPECIFICATION_ELEMENT__SPECIFICATION);
 
 		ISWTObservableValue uiProperty = WidgetProperties.text(new int[]{SWT.FocusOut, SWT.Modify}).observe(textWidget);
-		IObservableValue<EObject> modelPropertyObservable = modelProperty.observe(
+		IObservableValue modelPropertyObservable = modelProperty.observe(
 				EcoreUtil.getObjectByType(getDiagram().eResource().getContents(), SGraphPackage.Literals.STATECHART));
 
 		ValidatingEMFDatabindingContext context = new ValidatingEMFDatabindingContext(this, getSite().getShell());
