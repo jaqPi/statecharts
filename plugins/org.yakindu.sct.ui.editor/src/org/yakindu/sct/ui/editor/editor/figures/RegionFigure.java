@@ -20,11 +20,13 @@ import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.swt.graphics.Color;
 import org.yakindu.base.xtext.utils.gmf.figures.SyntaxColoringLabel;
 import org.yakindu.sct.ui.editor.editor.figures.utils.GridDataFactory;
+import org.yakindu.sct.ui.editor.editor.figures.utils.MapModeUtils;
 
 /**
  * 
@@ -63,6 +65,13 @@ public class RegionFigure extends RectangleFigure {
 		compartmentPane.setLayoutManager(new StackLayout());
 		compartmentPane.setFill(false);
 		this.add(compartmentPane, GridDataFactory.fillDefaults().grab(true, true).getData());
+	}
+	
+	
+	
+	@Override
+	public Dimension getPreferredSize(int wHint, int hHint) {
+		return MapModeUtils.getDefaultRegionSizeDimension(getMapMode());
 	}
 
 	public WrappingLabel getNameLabel() {

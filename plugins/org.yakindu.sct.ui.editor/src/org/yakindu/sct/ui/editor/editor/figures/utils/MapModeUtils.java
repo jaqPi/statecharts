@@ -17,20 +17,44 @@ public final class MapModeUtils {
 
 	private MapModeUtils() {
 	}
-
 	
-	private static final int DEFAULT_NODE_WIDTH = 100;
+	private static final double DEFAULT_ASPECT_RATIO = Math.sqrt(2);
+	private static final float DEFAULT_REGION = 1.2f;
+	
 	private static final int DEFAULT_NODE_HEIGHT = 71;
-
+	private static final int DEFAULT_NODE_WIDTH = (int) (DEFAULT_NODE_HEIGHT * DEFAULT_ASPECT_RATIO);
+	
+	// Default size for choices, entry, or exit nodes
+	public static final Dimension DEFAULT_SMALL_NODE_DIMENSION = new Dimension(25, 25);
+	
+	/**
+	 * Returns the default size for all non-region objects
+	 * 
+	 * @param mode
+	 * @return 
+	 */
 	public static Dimension getDefaultSizeDimension(IMapMode mode) {
 		return new Dimension(mode.DPtoLP(DEFAULT_NODE_WIDTH), mode.DPtoLP(DEFAULT_NODE_HEIGHT));
 	}
+	
+	/**
+	 * Returns the default size for regions. Size depends on nodes' default
+	 * size but increased.
+	 * 
+	 * @param mode
+	 * @return
+	 */
+	public static Dimension getDefaultRegionSizeDimension(IMapMode mode) {
+		int regionHeight = (int) (DEFAULT_NODE_HEIGHT * DEFAULT_REGION);
+		int regionWidth = (int) (regionHeight * DEFAULT_ASPECT_RATIO);
+		
+		return new Dimension(mode.DPtoLP(regionWidth), mode.DPtoLP(regionHeight));
+	}
 
-
-	public static final Dimension DEFAULT_SMALL_NODE_DIMENSION = new Dimension(25, 25);
-
+	
 	public static Dimension getMappedDimensions(IMapMode mode, Dimension d) {
 		return new Dimension(mode.DPtoLP(d.width), mode.DPtoLP(d.height));
 	}
+	
 }
 
