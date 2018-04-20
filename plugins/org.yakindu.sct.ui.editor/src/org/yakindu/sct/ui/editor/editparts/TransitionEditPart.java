@@ -27,6 +27,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.yakindu.sct.ui.editor.editor.figures.TransitionFigure;
 import org.yakindu.sct.ui.editor.policies.InitialPointsConnectionBendpointEditPolicy;
+import org.yakindu.sct.ui.editor.preferences.StatechartColorConstants;
 
 /**
  * 
@@ -101,14 +102,19 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 		switch (value) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
-			getFigure().setLineWidth(getMapMode().DPtoLP(2));
+			getFigure().setLineWidth(getMapMode().DPtoLP(3));
+			getFigure().setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
+			Connection figure = this.getConnectionFigure();
 			break;
 		default:
 			getFigure().setLineWidth(getMapMode().DPtoLP(1));
+            getFigure().setForegroundColor(StatechartColorConstants.TRANSITION_DEFAULT);
 		}
 
 		super.setSelected(value);
 	}
+	
+	
 
 	@Override
 	public DragTracker getDragTracker(Request req) {

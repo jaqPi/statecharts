@@ -27,5 +27,8 @@ public interface StatechartColorConstants {
 	Color STATE_LINE_COLOR = ColorConstants.lightGray;
 
 	Color REGION_LINE_COLOR = ColorConstants.lightGray;
-
+	
+	Color TRANSITION_DEFAULT = ColorConstants.black ;
+	
+	Color TRANSITION_SELECTED = ColorConstants.cyan ;	
 }
