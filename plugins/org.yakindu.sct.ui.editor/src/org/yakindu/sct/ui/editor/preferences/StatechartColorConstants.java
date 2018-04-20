@@ -30,5 +30,5 @@ public interface StatechartColorConstants {
 	
 	Color TRANSITION_DEFAULT = ColorConstants.black ;
 	
-	Color TRANSITION_SELECTED = ColorConstants.cyan ;	
+	Color TRANSITION_SELECTED = ColorConstants.darkBlue ;
 }

@@ -10,7 +10,11 @@
  */
 package org.yakindu.sct.ui.editor.editparts;
 
+import static org.yakindu.sct.ui.editor.editor.figures.utils.GraphicsUtil.mixColor;
+
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.LineBorder;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -25,6 +29,7 @@ import org.eclipse.gmf.runtime.gef.ui.internal.editpolicies.LineMode;
 import org.eclipse.gmf.runtime.gef.ui.internal.tools.SelectConnectionEditPartTracker;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
+import org.yakindu.sct.ui.editor.editor.figures.StateFigure;
 import org.yakindu.sct.ui.editor.editor.figures.TransitionFigure;
 import org.yakindu.sct.ui.editor.policies.InitialPointsConnectionBendpointEditPolicy;
 import org.yakindu.sct.ui.editor.preferences.StatechartColorConstants;
@@ -99,16 +104,38 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 	
 	@Override
 	public void setSelected(int value) {
+		Connection figure = this.getConnectionFigure();
+
 		switch (value) {
 		case EditPart.SELECTED:
 		case EditPart.SELECTED_PRIMARY:
-			getFigure().setLineWidth(getMapMode().DPtoLP(3));
+			getFigure().setLineWidth(getMapMode().DPtoLP(2));
 			getFigure().setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
-			Connection figure = this.getConnectionFigure();
+			
+			
+			if(figure.getSourceAnchor().getOwner().getChildren().get(0) instanceof StateFigure) {
+				StateFigure sourceState = (StateFigure) figure.getSourceAnchor().getOwner().getChildren().get(0);
+				sourceState.setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
+			}
+			
+			if(figure.getTargetAnchor().getOwner().getChildren().get(0) instanceof StateFigure) {
+				StateFigure targetState = (StateFigure) figure.getTargetAnchor().getOwner().getChildren().get(0);
+				targetState.setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
+			}
 			break;
 		default:
 			getFigure().setLineWidth(getMapMode().DPtoLP(1));
             getFigure().setForegroundColor(StatechartColorConstants.TRANSITION_DEFAULT);
+			
+			if(figure.getSourceAnchor().getOwner().getChildren().get(0) instanceof StateFigure) {
+				StateFigure sourceState = (StateFigure) figure.getSourceAnchor().getOwner().getChildren().get(0);
+				sourceState.setForegroundColor(StatechartColorConstants.STATE_LINE_COLOR);
+			}
+			
+			if(figure.getTargetAnchor().getOwner().getChildren().get(0) instanceof StateFigure) {
+				StateFigure targetState = (StateFigure) figure.getTargetAnchor().getOwner().getChildren().get(0);
+				targetState.setForegroundColor(StatechartColorConstants.STATE_LINE_COLOR);
+			}
 		}
 
 		super.setSelected(value);
