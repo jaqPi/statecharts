@@ -76,28 +76,28 @@ public class DefaultSCTPaletteFactory implements ISCTPaletteFactory {
 	}
 
 	protected void createTransitionEntry(PaletteContainer container) {
-		container.add(new ConnectionCreationToolEntry("Transition", "Creates a transition", getType(TRANSITION_ID),
+		container.add(new ConnectionCreationToolEntry("Transition", "Creates a transition (T)", getType(TRANSITION_ID),
 				findIcon("icons/obj16/transition-16.png"), findIcon("icons/obj32/transition-32.png")));
 	}
 
 	protected void createStateEntry(PaletteContainer container) {
-		container.add(new CreationToolEntry("State", "Creates a state", getType(STATE_ID),
+		container.add(new CreationToolEntry("State", "Creates a state (S)", getType(STATE_ID),
 				findIcon("icons/obj16/State-16.png"), findIcon("icons/obj32/State-32.png"), true));
 	}
 
 	protected void createCompositeStateEntry(PaletteContainer container) {
-		container.add(new CreationToolEntry("Composite State", "Creates a composite state", getType(COMPOSITE_STATE_ID),
+		container.add(new CreationToolEntry("Composite State", "Creates a composite state (C)", getType(COMPOSITE_STATE_ID),
 				findIcon("icons/obj16/Composite-State-16.png"), findIcon("icons/obj32/Composite-State-32.png"), true));
 	}
 
 	protected void createOrthogonalStateEntry(PaletteContainer container) {
-		container.add(new CreationToolEntry("Orthogonal State", "Creates an orthogonal state",
+		container.add(new CreationToolEntry("Orthogonal State", "Creates an orthogonal state (V)",
 				getType(ORTHOGONAL_STATE_ID), findIcon("icons/obj16/Orthogonal-State-16.png"),
 				findIcon("icons/obj32/Orthogonal-State-32.png"), true));
 	}
 
 	protected void createRegionEntry(PaletteContainer container) {
-		container.add(new CreationToolEntry("Region", "Creates a region", getType(REGION_ID),
+		container.add(new CreationToolEntry("Region", "Creates a region (R)", getType(REGION_ID),
 				findIcon("icons/obj16/Region-16.png"), findIcon("icons/obj32/Region-32.png"), false));
 	}
 
