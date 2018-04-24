@@ -417,7 +417,7 @@
 
    <!-- Modeling Assistant -->
    
-   <extension
+ <!--  <extension
          point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders">
       <modelingAssistantProvider
             class="org.yakindu.sct.ui.editor.assistent.StatechartModelingAssistantProvider">
@@ -441,7 +441,7 @@
                id="State_Compartment">
          </object>
       </modelingAssistantProvider>
-   </extension>
+   </extension>-->
    <extension
             point="org.eclipse.ui.preferencePages">
         <page
