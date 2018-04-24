@@ -47,6 +47,7 @@ import org.yakindu.sct.ui.editor.editparts.tracker.NonRevealingDragEditPartsTrac
 import org.yakindu.sct.ui.editor.partitioning.DiagramPartitioningUtil;
 import org.yakindu.sct.ui.editor.policies.EnlargeContainerEditPolicy;
 import org.yakindu.sct.ui.editor.policies.FeedbackGraphicalNodeEditPolicy;
+import org.yakindu.sct.ui.editor.policies.FeedbackTransitionCreateEditPolicy;
 import org.yakindu.sct.ui.editor.policies.PreferredSizeHandlerEditPolicy;
 import org.yakindu.sct.ui.editor.preferences.StatechartColorConstants;
 import org.yakindu.sct.ui.editor.providers.SemanticHints;
@@ -129,7 +130,7 @@ public class StateEditPart extends ShapeNodeEditPart implements IPrimaryEditPart
 		removeEditPolicy(EditPolicyRoles.CREATION_ROLE);
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new PreferredSizeHandlerEditPolicy());
 		installEditPolicy(EnlargeContainerEditPolicy.ROLE, new EnlargeContainerEditPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new FeedbackGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new FeedbackTransitionCreateEditPolicy());
 	}
 
 	@Override
