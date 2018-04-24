@@ -22,16 +22,19 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.parts.DiagramGraphicalViewerKeyHandler;
+import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.gmf.runtime.gef.ui.internal.editparts.AnimatableZoomManager;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.Action;
@@ -61,10 +64,12 @@ import org.yakindu.sct.model.sgraph.SpecificationElement;
 import org.yakindu.sct.model.sgraph.Statechart;
 import org.yakindu.sct.model.sgraph.util.ContextElementAdapter.IContextElementProvider;
 import org.yakindu.sct.ui.editor.DiagramActivator;
+import org.yakindu.sct.ui.editor.actions.ActivatePaletteToolAction;
 import org.yakindu.sct.ui.editor.definitionsection.StatechartDefinitionSection;
 import org.yakindu.sct.ui.editor.partitioning.DiagramPartitioningEditor;
 import org.yakindu.sct.ui.editor.partitioning.DiagramPartitioningUtil;
 import org.yakindu.sct.ui.editor.proposals.ContentProposalViewerKeyHandler;
+import org.yakindu.sct.ui.editor.providers.DefaultSCTPaletteFactory;
 import org.yakindu.sct.ui.editor.providers.ISCTOutlineFactory;
 import org.yakindu.sct.ui.editor.utils.HelpContextIds;
 import org.yakindu.sct.ui.editor.validation.IValidationIssueStore;
@@ -96,6 +101,15 @@ public class StatechartDiagramEditor extends DiagramPartitioningEditor implement
 	public StatechartDiagramEditor() {
 		super(true);
 	}
+
+	
+
+	@Override
+	public DefaultEditDomain getEditDomain() {
+		return super.getEditDomain();
+	}
+
+
 
 	public boolean isEditable() {
 		DomainStatus domainStatus = getDomainStatus();
@@ -262,6 +276,16 @@ public class StatechartDiagramEditor extends DiagramPartitioningEditor implement
 		contentProposalHandler
 				.setParent(new DiagramGraphicalViewerKeyHandler(getGraphicalViewer()).setParent(getKeyHandler()));
 		getGraphicalViewer().setKeyHandler(contentProposalHandler);
+		
+	}
+	
+	/**
+	 * Creates a {@link KeyStroke} for given single key
+	 * @param character
+	 * @return
+	 */
+	private static KeyStroke singleKeyToKeyStroke(char character) {
+		return KeyStroke.getPressed(Character.toLowerCase(character), (int)Character.toLowerCase(character), 0);
 	}
 
 	/**
@@ -272,8 +296,11 @@ public class StatechartDiagramEditor extends DiagramPartitioningEditor implement
 	protected KeyHandler getKeyHandler() {
 		if (keyHandler == null) {
 			keyHandler = new KeyHandler();
-
+			
 			registerZoomActions();
+			registerPaletteKeyActions();
+			addPaletteKeyBindings();
+			
 
 			// Zoom in - Unix - Numpad plus
 			getKeyHandler().put(KeyStroke.getPressed('+', SWT.KEYPAD_ADD, SWT.MOD1),
@@ -352,6 +379,46 @@ public class StatechartDiagramEditor extends DiagramPartitioningEditor implement
 							// is not a visible action
 		getActionRegistry().registerAction(action);
 		getSelectionActions().add(action.getId());
+	}
+	
+	/**
+	 * Creates and registers actions to activate tool
+	 */
+	private void registerPaletteKeyActions() {
+		 getActionRegistry()
+		 	.registerAction(new ActivatePaletteToolAction(this, DefaultSCTPaletteFactory.STATE_ID));
+		 
+		 getActionRegistry()
+		 	.registerAction(new ActivatePaletteToolAction(this, DefaultSCTPaletteFactory.TRANSITION_ID));
+		 
+		 getActionRegistry()
+		 	.registerAction(new ActivatePaletteToolAction(this, DefaultSCTPaletteFactory.REGION_ID));
+		 
+		 getActionRegistry()
+		 	.registerAction(new ActivatePaletteToolAction(this, DefaultSCTPaletteFactory.COMPOSITE_STATE_ID));
+		 
+		 getActionRegistry()
+		 	.registerAction(new ActivatePaletteToolAction(this, DefaultSCTPaletteFactory.ORTHOGONAL_STATE_ID));
+	}
+	
+	/**
+	 * Binds palette action to specific key
+	 */
+	private void addPaletteKeyBindings() {
+		getKeyHandler().put(singleKeyToKeyStroke('S'),
+				getActionRegistry().getAction(DefaultSCTPaletteFactory.STATE_ID));
+		
+		getKeyHandler().put(singleKeyToKeyStroke('T'),
+				getActionRegistry().getAction(DefaultSCTPaletteFactory.TRANSITION_ID));
+		
+		getKeyHandler().put(singleKeyToKeyStroke('R'),
+				getActionRegistry().getAction(DefaultSCTPaletteFactory.REGION_ID));
+		
+		getKeyHandler().put(singleKeyToKeyStroke('C'),
+				getActionRegistry().getAction(DefaultSCTPaletteFactory.COMPOSITE_STATE_ID));
+		
+		getKeyHandler().put(singleKeyToKeyStroke('V'),
+				getActionRegistry().getAction(DefaultSCTPaletteFactory.ORTHOGONAL_STATE_ID));
 	}
 
 	@Override
