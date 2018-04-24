@@ -13,6 +13,7 @@ package org.yakindu.sct.ui.editor.proposals;
 import java.util.List;
 
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.parts.DirectEditKeyHandler;
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -28,7 +29,8 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 @SuppressWarnings("restriction")
-public class ContentProposalViewerKeyHandler extends DirectEditKeyHandler {
+public class ContentProposalViewerKeyHandler extends KeyHandler {
+	private GraphicalViewer viewer;
 
 	private ContentProposalHandler proposalHandler;
 
@@ -37,13 +39,45 @@ public class ContentProposalViewerKeyHandler extends DirectEditKeyHandler {
 	protected static final KeyStroke keyStroke = KeyStroke.getInstance(SWT.CTRL, SWT.SPACE);
 
 	public ContentProposalViewerKeyHandler(GraphicalViewer viewer) {
-		super(viewer);
+		this.viewer = viewer;
+		//super();
 		createProposalHandler();
 		createContentAdpater();
+	}
+	
+	/**
+	 * @return the <code>GraphicalViewer</code> that is the receiving viewer of the direct edit
+     * request.
+	 */
+	protected GraphicalViewer getViewer() {
+		return viewer;
 	}
 
 	protected void createProposalHandler() {
 		proposalHandler = new ContentProposalHandler(getViewer());
+	}
+	
+	/**
+	 * Tests to see if the key pressed was an letter or number
+	 * @param event KeyEvent to be tested
+	 * @return true if the key pressed is Alpha Numeric, otherwise false.
+	 */
+	protected boolean isAlphaNum(KeyEvent event) {
+
+		final String allowedStartingCharacters = "`~!@#$%^&*()-_=+{}[]|;:',.<>?\""; //$NON-NLS-1$
+
+		// IF the character is a letter or number or is contained
+		// in the list of allowed starting characters ...
+		if (Character.isLetterOrDigit(event.character)
+			|| !(allowedStartingCharacters.indexOf(event.character) == -1)) {
+
+			// And the character hasn't been modified or is only modified
+			// with SHIFT
+			if (event.stateMask == 0 || event.stateMask == SWT.SHIFT)
+				return true;
+		}
+
+		return false;
 	}
 
 	protected void createContentAdpater() {
@@ -60,7 +94,7 @@ public class ContentProposalViewerKeyHandler extends DirectEditKeyHandler {
 	
 	@Override
 	public boolean keyPressed(KeyEvent e) {
-		if (getCurrentSelection() == null)
+		if (getCurrentSelection() == null || isAlphaNum(e))
 			return super.keyPressed(e);
 		if ((e.character == ' ') && ((e.stateMask & SWT.CTRL) != 0)) {
 			// Do not execute super - the default ctrl key binding is a
@@ -68,6 +102,7 @@ public class ContentProposalViewerKeyHandler extends DirectEditKeyHandler {
 			// reason
 			return true;
 		}
+		
 		return super.keyPressed(e);
 	}
 
