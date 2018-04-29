@@ -12,6 +12,8 @@ package org.yakindu.sct.ui.editor.editor.figures;
 
 import java.lang.reflect.Field;
 
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
@@ -25,11 +27,53 @@ import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 public class TransitionFigure extends PolylineConnectionEx {
 
 	private final IMapMode mapMode;
+	private Boolean isSelected;
+	
+	public void setIsSelected(Boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 
 	protected static final int TOLERANCE = 4;
 
 	public TransitionFigure(IMapMode mapMode) {
 		this(mapMode, false);
+		isSelected = false;
+		this.addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent me) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent me) {
+				if (!isSelected) {
+					setLineWidth(getMapMode().DPtoLP(2));
+					me.consume();
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent me) {
+				if (!isSelected) {
+					setLineWidth(getMapMode().DPtoLP(1));
+					me.consume();
+				}
+			}
+
+			@Override
+			public void mouseHover(MouseEvent me) {
+					@SuppressWarnings("unused")
+					String string = "String";
+					string = "";
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent me) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 
 	public TransitionFigure(IMapMode mapMode, boolean reversed) {
