@@ -161,7 +161,8 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 	 * @param anchor
 	 */
 	private void addHighlightToConnectedState(ConnectionAnchor anchor) {
-		if(!anchor.getOwner().getChildren().isEmpty() &&
+		if(anchor != null &&
+				!anchor.getOwner().getChildren().isEmpty() &&
 				anchor.getOwner().getChildren().get(0) instanceof StateFigure) {
 			StateFigure state = (StateFigure) anchor.getOwner().getChildren().get(0);
 			state.setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
@@ -174,7 +175,8 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 	 * @param anchor
 	 */
 	private void removeHighlightFromConnectedState(ConnectionAnchor anchor) {
-		if(!anchor.getOwner().getChildren().isEmpty() &&
+		if(anchor != null &&
+				!anchor.getOwner().getChildren().isEmpty() &&
 				anchor.getOwner().getChildren().get(0) instanceof StateFigure) {
 			StateFigure state = (StateFigure) anchor.getOwner().getChildren().get(0);
 			state.setForegroundColor(StatechartColorConstants.STATE_LINE_COLOR);
