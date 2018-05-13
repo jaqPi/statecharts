@@ -10,8 +10,10 @@
  */
 package org.yakindu.sct.ui.editor.editparts;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.LineBorder;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -109,7 +111,12 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 			// highlight transition
 			getFigure().setLineWidth(getMapMode().DPtoLP(2));
 			getFigure().setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
+			getFigure().setIsSelected(true);
+			//getPrimaryChildEditPart().setSelected(EditPart.SELECTED);
+			((TransitionExpressionEditPart) getPrimaryChildEditPart()).getFigure().setBorder(new LineBorder(StatechartColorConstants.TRANSITION_SELECTED, getMapMode().DPtoLP(1)));
 			
+			//((TransitionExpressionEditPart) getPrimaryChildEditPart()).getFigure().setBackgroundColor(ColorConstants.blue);
+
 			addHighlightToConnectedState(figure.getSourceAnchor());
 			addHighlightToConnectedState(figure.getTargetAnchor());
 			break;
@@ -120,7 +127,13 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 			
 			removeHighlightFromConnectedState(figure.getSourceAnchor());
 			removeHighlightFromConnectedState(figure.getTargetAnchor());
-			
+			getFigure().setIsSelected(false);
+			//getPrimaryChildEditPart().setSelected(EditPart.SELECTED_NONE);
+			((TransitionExpressionEditPart) getPrimaryChildEditPart()).getFigure().setBorder(null);
+			//((TransitionExpressionEditPart) getPrimaryChildEditPart()).getFigure().setOpaque(false);
+			//((TransitionExpressionEditPart) getPrimaryChildEditPart()).getFigure().setBackgroundColor(null);
+
+
 		}
 
 		super.setSelected(value);
@@ -148,7 +161,8 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 	 * @param anchor
 	 */
 	private void addHighlightToConnectedState(ConnectionAnchor anchor) {
-		if(!anchor.getOwner().getChildren().isEmpty() &&
+		if(anchor != null &&
+				!anchor.getOwner().getChildren().isEmpty() &&
 				anchor.getOwner().getChildren().get(0) instanceof StateFigure) {
 			StateFigure state = (StateFigure) anchor.getOwner().getChildren().get(0);
 			state.setForegroundColor(StatechartColorConstants.TRANSITION_SELECTED);
@@ -161,7 +175,8 @@ public class TransitionEditPart extends ConnectionNodeEditPart {
 	 * @param anchor
 	 */
 	private void removeHighlightFromConnectedState(ConnectionAnchor anchor) {
-		if(!anchor.getOwner().getChildren().isEmpty() &&
+		if(anchor != null &&
+				!anchor.getOwner().getChildren().isEmpty() &&
 				anchor.getOwner().getChildren().get(0) instanceof StateFigure) {
 			StateFigure state = (StateFigure) anchor.getOwner().getChildren().get(0);
 			state.setForegroundColor(StatechartColorConstants.STATE_LINE_COLOR);
